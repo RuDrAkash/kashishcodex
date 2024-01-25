@@ -1,0 +1,314 @@
+// linked list Operations
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node NODE;
+struct node
+{
+    int data;
+    NODE *link;
+};
+
+NODE *creation(NODE *head)
+{
+    int d;
+    NODE *temp = malloc(sizeof(NODE));
+    printf("\nEnter the data:");
+    scanf("%d", &d);
+    temp->data = d;
+    temp->link = NULL;
+    head = temp;
+    return head;
+}
+
+NODE *adde(NODE *head)
+{
+    int n, no;
+    if (head == NULL)
+    {
+        int d;
+        head = (NODE *)malloc(sizeof(NODE));
+        printf("data value for head:");
+        scanf("%d", &d);
+        head->data = d;
+        head->link = NULL;
+    }
+    NODE *temp = head;
+    printf("Enter the number of NODES:");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+    {
+        NODE *ptr = malloc(sizeof(NODE));
+        printf("data value:");
+        scanf("%d", &no);
+        ptr->data = no;
+        ptr->link = NULL;
+        temp->link = ptr;
+        temp = temp->link;
+    }
+    return head;
+}
+
+NODE *addf(NODE *head)
+{
+    int n, no;
+    if (head == NULL)
+    {
+        int d;
+        head = (NODE *)malloc(sizeof(NODE));
+        printf("data value:");
+        scanf("%d", &d);
+        head->data = d;
+        head->link = NULL;
+    }
+    NODE *temp = head;
+    printf("Enter the number of NODES:");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+    {
+        NODE *ptr = malloc(sizeof(NODE));
+        printf("data value:");
+        scanf("%d", &no);
+        ptr->data = no;
+        ptr->link = NULL;
+        ptr->link = temp;
+        temp = ptr;
+        head = temp;
+    }
+    return head;
+}
+
+NODE *addp(NODE *head)
+{
+    int pos, d;
+    printf("Enter the position:");
+    scanf("%d", &pos);
+    NODE *temp = head;
+    while (pos-- != 2)
+    {
+        temp = temp->link;
+    }
+    NODE *ptr = malloc(sizeof(NODE));
+    printf("Enter the data:");
+    scanf("%d", &d);
+    ptr->data = d;
+    ptr->link = temp->link;
+    temp->link = ptr;
+    return head;
+}
+
+int countnode(NODE *head)
+{
+    int count = 0;
+    NODE *temp = head;
+    if (head == NULL)
+    {
+        printf("\nNO NODE IS THERE\n");
+    }
+    while (temp != NULL)
+    {
+        count++;
+        temp = temp->link;
+    }
+    printf("\nTotal nodes in the linked list: %d", count);
+    return 0;
+}
+
+NODE *deletef(NODE *head)
+{
+    NODE *temp = head;
+    head = head->link;
+    temp->link = NULL;
+    free(temp);
+    return head;
+}
+NODE *deleteend(NODE *head)
+{
+    if (head->link == NULL)
+    {
+        free(head);
+    }
+    else
+    {
+        NODE *temp = head;
+        while (temp->link->link != NULL)
+        {
+            temp = temp->link;
+        }
+        NODE *temp1 = temp->link;
+        temp->link = NULL;
+        free(temp1);
+    }
+
+    return head;
+}
+NODE *deletepos(NODE *head)
+{
+    int pos;
+    NODE *temp = head;
+    printf("Enter the position you want to delete for the list:");
+    scanf("%d", &pos);
+    while (pos-- != 2)
+    {
+        temp = temp->link;
+    }
+    NODE *ptr = temp;
+    ptr = temp->link;
+    temp->link = ptr->link;
+    ptr->link = NULL;
+    free(ptr);
+    return head;
+}
+
+NODE *delete_element(NODE *head)
+{
+    int d;
+    NODE *temp = head;
+    NODE *ptr = head;
+    printf("Enter the data element you want to delete:");
+    scanf("%d", &d);
+    if (temp->data == d)
+    {
+        head = temp->link;
+        temp->link = NULL;
+        free(temp);
+    }
+    else
+    {
+        while (temp->link->data != d)
+        {
+            temp = temp->link;
+        }
+        ptr = temp->link;
+        temp->link = ptr->link;
+        int n=ptr->data;
+        ptr->link = NULL;
+        printf("\nelement %d is deleted from the data \n",n);
+        free(ptr);
+    }
+
+    
+    return head;
+}
+int display(NODE *head)
+{
+    // int count=0;
+    if (head == NULL)
+    {
+        printf("List is empty");
+    }
+    NODE *temp = head;
+    while (temp != NULL)
+    {
+        // count++;
+        printf("%d ->", temp->data);
+        temp = temp->link;
+    }
+    return 0;
+    // printf("Total nodes in the linked list:",count);
+}
+
+int main()
+{
+    int o, i, p;
+    char choice;
+    NODE *head = NULL;
+    printf("WANT TO DO Operations of linked list:\n");
+    scanf("%s", &choice);
+    printf("\n--------------------------------------\n");
+
+    while (choice == 'y' || choice == 'Y')
+    {
+        printf("\n\n--------------------------------------\n\n");
+        printf("\n0.CREATION OF FIRST NODE\n1.INSERTION\n2.DELETION\n3.DISPLAY\n4.NODE COUNT\n5.EXIT\n");
+        printf("Enter the operation you want to perform:");
+        scanf("%d", &o);
+        switch (o)
+        {
+        case 0:
+            if (head != NULL)
+            {
+                printf("First node is already created!!!");
+            }
+            else
+            {
+                head = creation(head);
+            }
+            break;
+        case 1:
+            // int i;
+            if (head == NULL)
+            {
+
+                printf("!!!first add head node!!!");
+                break;
+            }
+            else
+            {
+                printf("\n\n--------------------------------------\n\n");
+                printf("\n1.ADD AT FRONT\n2.ADD AT END\n3.ADD AT A POSITION\n");
+                printf("\nEnter your choice of creation:\n");
+                scanf("%d", &i);
+                switch (i)
+                {
+                case 1:
+                    head = addf(head);
+                    break;
+                case 2:
+                    head = adde(head);
+                    break;
+                case 3:
+                    head = addp(head);
+                    break;
+                default:
+                    printf("Enter valid option");
+                    break;
+                }
+                break;
+            }
+
+        case 2:
+            // int p;
+            printf("\n\n--------------------------------------\n\n");
+            printf("\n\n1.DELETE FROM FRONT\n2.DELETE FROM END\n3.DELETE FROM A POSITION\n4.DELETE ELEMENT FRON THE DATA\n");
+            printf("\nEnter the choice of deletion:\n");
+            scanf("%d", &p);
+            switch (p)
+            {
+            case 1:
+                head = deletef(head);
+                break;
+            case 2:
+                head = deleteend(head);
+                break;
+            case 3:
+                head = deletepos(head);
+                break;
+            case 4:
+                head = delete_element(head);
+                break;
+            default:
+                printf("Enter the valid choice");
+                break;
+            }
+            break;
+        case 3:
+            display(head);
+            break;
+        case 4:
+            countnode(head);
+            break;
+        case 5:
+            exit(1);
+        default:
+            printf("ENTER VALID OPTION");
+            break;
+        }
+        // printf("\nWant to do more operations:");
+        // scanf("%s",&choice);
+    }
+    return 0;
+}
